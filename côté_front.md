@@ -1,0 +1,129 @@
+# Processus 
+1)Configuration du fichier html
+  * Dans le html 
+ -ajout de l'id dans la div ou le js doit agir .
+ -ajouter le {% csrf_token %}
+ - à travers le v-if nous allons afficher les messages de success ou error. pour cela on fait 
+                <div v-if="isSucess" class="alert alert-success" role="alert">
+                     ${message}
+                </div>
+                <div v-if="error" class="alert alert-danger" role="alert">
+                       ${message}
+                 </div>
+-ajouter les v-model dans les champs input, textera, select ... 
+-si on veut recuperer une image, pdf, video on fait :
+<input v-on:change="handleImageUploaded" ref="files" type="file" accept="image/*" class="custom-file-input">
+- au niveau du button de soumission 
+<button v-if="!isregister" v-on:click.prevent="nom_fonction" type="submit" class="btn-md btn-theme btn-block">Register</button>
+<button v-if="isregister" disabled v-on:click.prevent="nom_fonction" type="submit" class="btn-md btn-theme btn-block">Register</button>
+
+ *ajouter les cdn axios et vuejs
+ 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+  * dans le bas du html
+  
+  <script>
+// Block Vue JS  
+new Vue({
+   
+  // id de la section ou vue js aura effet
+el: '#nom_id',
+    // end 
+    
+    // varaible en rapport au v-model et variable permettant de traiter les erreurs
+data: {
+    v-model:'',
+    message:'',
+   isregister: false,
+   loader: false,
+   isSuccess: false,
+   error: false,
+   base_url: window.location.protocol + "//" + window.location.host + "/",
+},
+    //end 
+delimiters: ["${", "}"],
+    
+    // code à exécuter au chargement de la page (fonction,changement de variable...)
+mounted() { },
+
+    // les différentes fonctions 
+methods: {
+    nom_fonction: function () {
+    
+        // vérification des données 
+       if (!this.isregister) {
+           this.error = false
+           this.isSuccess = false
+           this.isregister = true
+           if (this.title == "" || this.file == "" || this.description == "" || this.date_fin == "" || this.date_debut == "" || this.matiere == "" || this.duration == "" || this.image == "") {
+               this.message = "Veuillez remplir correctement les champs";
+               this.error = true
+               this.isSuccess = false
+               this.isregister = false;
+           } else {
+            //    permet d'imploder des fichiers
+               
+               // stocker les données 
+               let formData = new FormData();
+               formData.append('v-model', this.v-model);
+               
+               // post des données vers le back-end 
+               axios.defaults.xsrfCookieName = 'csrftoken'
+               axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+               axios.post(this.base_url + 'instructor/post_cours',
+                   formData,
+                   {
+                       headers: {
+                           'Content-Type': 'multipart/form-data',
+                       }
+                   
+                   // traitement sur les reponses 
+                   }).then(response => {
+                   console.log(response)
+                   this.isregister = false;
+                   
+                   
+                   // si tout s'est bien passé 
+                   if (response.data.success) {
+                       
+                       // permet d'afficher un message à l'ecran 
+                       this.isSuccess = true
+                       this.error = false
+                       this.message = response.data.message
+                       this.success = response.data.success
+                       // redirection 
+                       window.location.replace(this.base_url + 'instructor/courses');
+                       
+                       // en cas d'erreur 
+                   } else {
+                       this.error = true
+                       this.message = response.data.message
+                       this.success = response.data.success
+                       this.isSuccess = false
+                   }
+                   console.log("success variable" + this.isSuccess)
+                   // console.log("success variable"+this.error)
+               })
+                   .catch((err) => {
+                       this.isregister = false;
+                       console.log(err);
+                   })
+           }
+       }
+   },
+    
+    // recuperation des fichier 
+   handleFileUploaded() {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file)
+    },
+    handleImageUploaded() {
+        this.image = this.$refs.files.files[0];
+        console.log(this.image)
+    },
+}
+});
+</script>
+
