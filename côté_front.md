@@ -18,13 +18,13 @@
 <button v-if="isregister" disabled v-on:click.prevent="nom_fonction" type="submit" class="btn-md btn-theme btn-block">Register</button>
 
  *ajouter les cdn axios et vuejs
- 
+ """
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-
+"""
   * dans le bas du html
   
-  <script>
+"""  <script>
 // Block Vue JS  
 new Vue({
    
@@ -126,4 +126,5 @@ methods: {
 }
 });
 </script>
+"""
 
