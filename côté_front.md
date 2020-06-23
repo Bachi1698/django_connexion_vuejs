@@ -1,28 +1,36 @@
 # Processus 
 1)Configuration du fichier html
-  * Dans le html 
- -ajout de l'id dans la div ou le js doit agir .
- -ajouter le {% csrf_token %}
+  ### Dans le html 
+ - ajout de l'id dans la div ou le js doit agir .
+ - ajouter le {% csrf_token %}
  - à travers le v-if nous allons afficher les messages de success ou error. pour cela on fait 
-                <div v-if="isSucess" class="alert alert-success" role="alert">
+  '''<div v-if="isSucess" class="alert alert-success" role="alert">
                      ${message}
                 </div>
                 <div v-if="error" class="alert alert-danger" role="alert">
                        ${message}
                  </div>
--ajouter les v-model dans les champs input, textera, select ... 
--si on veut recuperer une image, pdf, video on fait :
+'''
+
+
+- ajouter les v-model dans les champs input, textera, select ... 
+- si on veut recuperer une image, pdf, video on fait :
+
+'''
 <input v-on:change="handleImageUploaded" ref="files" type="file" accept="image/*" class="custom-file-input">
+'''
 - au niveau du button de soumission 
+'''
 <button v-if="!isregister" v-on:click.prevent="nom_fonction" type="submit" class="btn-md btn-theme btn-block">Register</button>
 <button v-if="isregister" disabled v-on:click.prevent="nom_fonction" type="submit" class="btn-md btn-theme btn-block">Register</button>
-
- *ajouter les cdn axios et vuejs
- """
+'''
+ ### ajouter les cdn axios et vuejs
+ 
+'''
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-"""
-  * dans le bas du html
+'''
+  ### dans le bas du html
   
 """  <script>
 // Block Vue JS  
